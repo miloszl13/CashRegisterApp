@@ -5,6 +5,10 @@ VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CashRegisterApplication", "CashRegisterApplication\CashRegisterApplication.csproj", "{BECBA88D-96D1-40B7-8953-F5E34A9FB3B3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{8EFAB391-35F5-4742-89F2-C7E84308C8CB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InfrastructureData", "InfrastructureData\InfrastructureData.csproj", "{66E6ADF0-AE5E-4614-A980-7BDC3B4E4AB2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{BECBA88D-96D1-40B7-8953-F5E34A9FB3B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BECBA88D-96D1-40B7-8953-F5E34A9FB3B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BECBA88D-96D1-40B7-8953-F5E34A9FB3B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8EFAB391-35F5-4742-89F2-C7E84308C8CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8EFAB391-35F5-4742-89F2-C7E84308C8CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8EFAB391-35F5-4742-89F2-C7E84308C8CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8EFAB391-35F5-4742-89F2-C7E84308C8CB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66E6ADF0-AE5E-4614-A980-7BDC3B4E4AB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66E6ADF0-AE5E-4614-A980-7BDC3B4E4AB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66E6ADF0-AE5E-4614-A980-7BDC3B4E4AB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66E6ADF0-AE5E-4614-A980-7BDC3B4E4AB2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
