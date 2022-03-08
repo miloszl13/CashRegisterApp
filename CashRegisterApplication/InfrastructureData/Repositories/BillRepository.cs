@@ -15,13 +15,6 @@ namespace InfrastructureData.Repositories
         {
             _db=context;
         }
-        //Get bill by id
-        public Bill GetBillById(int id)
-        {
-            var bill = _db.Bills.FirstOrDefault(x => x.Bill_number == id);
-
-            return bill;
-        }
         //get all bills
         public IEnumerable<Bill> GetBills()
         {
@@ -50,6 +43,13 @@ namespace InfrastructureData.Repositories
 
             _db.Remove(bill);
             _db.SaveChanges();
+        }
+        //Get bill by id
+        public Bill GetBillById(int id)
+        {
+            var bill = _db.Bills.FirstOrDefault(x => x.Bill_number == id);
+
+            return bill;
         }
     }
 }

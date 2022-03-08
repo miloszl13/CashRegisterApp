@@ -60,6 +60,17 @@ namespace ApplicationLayer.Services
             var billfromdb = _billRepository.GetBills().FirstOrDefault(x => x.Bill_number == id);
             _billRepository.Delete(billfromdb);
         }
+        public BillViewModel GetBillById(int id)
+        {
+            var billfromdb = _billRepository.GetBillById(id);
+            var result = new BillViewModel {
+            Bill_number = billfromdb.Bill_number,
+            Total_cost = billfromdb.Total_cost,
+            Credit_card = billfromdb.Credit_card
+        };
+            return result;
+
+        }
 
     }
 }

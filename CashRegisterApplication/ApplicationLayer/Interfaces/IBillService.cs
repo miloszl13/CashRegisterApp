@@ -13,5 +13,6 @@ namespace ApplicationLayer.Interfaces
         void Create(BillViewModel billViewModel);
         void Update(BillViewModel billViewModel);
         void Delete(int id);
+        BillViewModel GetBillById(int id);
     }
 }

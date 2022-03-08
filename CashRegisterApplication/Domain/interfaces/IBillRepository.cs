@@ -12,5 +12,6 @@ namespace Domain.interfaces
         void Add(Bill bill);
         void Update(Bill bill,int id);
         void Delete(Bill bill);
+        public Bill GetBillById(int id);
     }
 }
