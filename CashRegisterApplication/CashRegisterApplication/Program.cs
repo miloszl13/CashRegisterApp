@@ -1,8 +1,13 @@
 using InfrastructureData;
+using InversionOfControl;
 using Microsoft.EntityFrameworkCore;
+using MediatR;
 
 var builder = WebApplication.CreateBuilder(args);
-
+static void RegisterService(IServiceCollection services)
+{
+    DependencyContainer.RegisterServices(services);
+}
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -13,6 +18,9 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<BillsDbContext>(options => options.UseNpgsql(
     builder.Configuration.GetConnectionString("DefaultConnection")
     ));
+builder.Services.AddMediatR(typeof(Program)); 
+RegisterService(builder.Services);
+
 
 var app = builder.Build();
 

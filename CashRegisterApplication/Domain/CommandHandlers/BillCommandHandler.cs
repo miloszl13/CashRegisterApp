@@ -1,0 +1,31 @@
+﻿using Domain.Commands;
+using Domain.interfaces;
+using MediatR;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Domain.CommandHandlers
+{
+    public class BillCommandHandler : IRequestHandler<CreateBillCommand, bool>
+    {
+        private readonly IBillRepository _billRepository;
+        public BillCommandHandler(IBillRepository billRepository)
+        {
+            _billRepository=billRepository;
+        }
+        public Task<bool> Handle(CreateBillCommand request, CancellationToken cancellationToken)
+        {
+            var bill = new Bill()
+            {
+                Bill_number = request.Bill_number,
+                Total_cost = request.Total_cost,
+                Credit_card = request.Credit_card,
+            };
+            _billRepository.Add(bill);
+            return Task.FromResult(true);
+        }
+    }
+}
