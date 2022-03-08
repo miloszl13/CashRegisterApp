@@ -30,7 +30,12 @@ namespace CashRegisterApplication.Controllers
             _billService.Update(bill);
             return Ok(bill);
         }
-
+        [HttpDelete("delete/{id}")]
+        public IActionResult DeleteBill([FromRoute] int id)
+        {
+            _billService.Delete(id);
+            return Ok(id);
+        }
 
     }
 }

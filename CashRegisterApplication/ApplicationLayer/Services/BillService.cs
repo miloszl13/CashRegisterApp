@@ -55,5 +55,11 @@ namespace ApplicationLayer.Services
             _bus.SendCommand(updateBillCommand); 
             
         }
+        public void Delete(int id)
+        {
+            var billfromdb = _billRepository.GetBills().FirstOrDefault(x => x.Bill_number == id);
+            _billRepository.Delete(billfromdb);
+        }
+
     }
 }
