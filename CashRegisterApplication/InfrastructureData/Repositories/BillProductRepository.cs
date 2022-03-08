@@ -15,6 +15,13 @@ namespace InfrastructureData.Repositories
         {
             _db=db;
         }
+
+        public void Add(BillProduct billproduct)
+        {
+            _db.Add(billproduct);
+            _db.SaveChanges();
+        }
+
         //get all bill products
         public IEnumerable<BillProduct> GetAllBillProducts()
         {

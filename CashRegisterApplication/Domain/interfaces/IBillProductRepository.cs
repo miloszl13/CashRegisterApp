@@ -8,6 +8,8 @@ namespace Domain.interfaces
 {
     public interface IBillProductRepository
     {
+        void Add(BillProduct billproduct);
+
         IEnumerable<BillProduct> GetAllBillProducts();
 
     }

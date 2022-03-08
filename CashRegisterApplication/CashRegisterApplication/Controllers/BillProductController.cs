@@ -18,5 +18,13 @@ namespace CashRegisterApplication.Controllers
         {           
             return _billProductService.GetAllBillProduct();
         }
+        //Create new bill
+        [HttpPost("Add product to billproduct")]
+        public IActionResult CreateBill([FromBody] BillProductViewModel billProductViewModel)
+        {
+            _billProductService.Create(billProductViewModel);
+            return Ok();
+        }
+        
     }
 }

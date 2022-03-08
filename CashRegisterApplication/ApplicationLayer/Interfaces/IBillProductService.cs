@@ -10,5 +10,7 @@ namespace ApplicationLayer.Interfaces
     public interface IBillProductService
     {
         List<BillProductViewModel> GetAllBillProduct();
+        void Create(BillProductViewModel billProductViewModel);
+
     }
 }

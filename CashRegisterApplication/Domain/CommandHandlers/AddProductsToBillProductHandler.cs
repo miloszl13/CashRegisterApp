@@ -12,25 +12,24 @@ namespace Domain.CommandHandlers
     public class AddProductsToBillProductHandler : IRequestHandler<AddProductsToBillProduct, bool>
     {
         private readonly IBillProductRepository _billProductRepository;
-
-        public AddProductsToBillProductHandler(IBillProductRepository billProductRepository)
+        private readonly IProductRepository _productRepository;
+        public AddProductsToBillProductHandler(IBillProductRepository billProductRepository, IProductRepository productRepository)
         {
             _billProductRepository = billProductRepository;
+            _productRepository=productRepository;
         }
         public Task<bool> Handle(AddProductsToBillProduct request, CancellationToken cancellationToken)
         {
-            
-            //var billProduct = new BillProduct()
-            //{
-                
-            //    Bill_number=request.Bill_number,
-            //    Product_id=request.Product_id,
-            //    Product_quantity=request.Product_quantity,
-            //    Products_cost
-            //}
-            
-            
-            //_billRepository.Add(bill);
+            Product product = _productRepository.GetProducts().FirstOrDefault(x => x.Product_id == request.Product_id);
+            var billProduct = new BillProduct()
+            {
+                Bill_number = request.Bill_number,
+                Product_id = request.Product_id,
+                Product_quantity = request.Product_quantity,
+                Products_cost = (product.Cost * request.Product_quantity)
+            };
+
+            _billProductRepository.Add(billProduct);
             return Task.FromResult(true);
         }
     }

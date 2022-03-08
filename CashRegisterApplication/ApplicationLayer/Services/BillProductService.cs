@@ -1,6 +1,8 @@
 ﻿using ApplicationLayer.Interfaces;
 using ApplicationLayer.ViewModels;
+using Domain.Commands;
 using Domain.interfaces;
+using DomainCore.Bus;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,9 +14,13 @@ namespace ApplicationLayer.Services
     public class BillProductService : IBillProductService
     {
         private readonly IBillProductRepository _billProductRepository;
-        public BillProductService(IBillProductRepository billProductRepository)
+        private readonly IMediatorHandler _bus;
+
+        public BillProductService(IBillProductRepository billProductRepository, IMediatorHandler bus)
         {
             _billProductRepository=billProductRepository;
+            _bus = bus;
+
         }
         public List<BillProductViewModel> GetAllBillProduct()
         {
@@ -34,6 +40,14 @@ namespace ApplicationLayer.Services
                 }
             }
             return result;
+        }
+        public void Create(BillProductViewModel billProductViewModel)
+        {
+            var addProductToBillProductCommand = new AddProductsToBillProduct(
+                billProductViewModel.Bill_number,
+                billProductViewModel.Product_id,
+                billProductViewModel.Product_quantity);
+            _bus.SendCommand(addProductToBillProductCommand);
         }
     }
 }
