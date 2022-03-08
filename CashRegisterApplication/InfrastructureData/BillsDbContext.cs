@@ -16,12 +16,12 @@ namespace InfrastructureData
         }
         public DbSet<Product> Products { get; set; }
         public DbSet<Bill> Bills { get; set; }
-        public DbSet<Bill_Product> Bill_Products { get; set;}
+        public DbSet<BillProduct> Bill_Products { get; set;}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //composite key
-            modelBuilder.Entity<Bill_Product>().HasKey(bp => new { bp.Bill_number, bp.Product_id });
+            modelBuilder.Entity<BillProduct>().HasKey(bp => new { bp.Bill_number, bp.Product_id });
         }
     }
 }

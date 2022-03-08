@@ -28,8 +28,10 @@ namespace InversionOfControl
             services.AddScoped<IRequestHandler<UpdateBillCommand,bool>, BillUpdateCommandHandler>();
             //Application layer
             services.AddScoped<IBillService, BillService>();
+            services.AddScoped<IBillProductService, BillProductService>();
             //InfraData Layer
             services.AddScoped<IBillRepository, BillRepository>();
+            services.AddScoped<IBillProductRepository, BillProductRepository>();
             services.AddScoped<BillsDbContext>();
 
         }

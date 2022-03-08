@@ -12,7 +12,7 @@ namespace ApplicationLayer.ViewModels
         public int Bill_number { get; set; }
         public int? Total_cost { get; set; }
         public int? Credit_card { get; set; }
-        public ICollection<Bill_Product> Bill_Products { get; set; }
+        public ICollection<BillProduct> Bill_Products { get; set; }
         //public IEnumerable<Bill> Bills { get; set; }
     }
 }

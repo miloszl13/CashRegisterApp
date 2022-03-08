@@ -13,7 +13,7 @@ namespace Domain
         public int Product_id { get; set; }
         public string Name { get; set; }
         public int Cost { get; set; }
-        public ICollection<Bill_Product> Bill_Products { get; set; }
+        public ICollection<BillProduct> Bill_Products { get; set; }
 
     }
 }

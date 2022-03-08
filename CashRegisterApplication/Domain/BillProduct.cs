@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Domain
 {
-    public class Bill_Product
+    public class BillProduct
     {
         [ForeignKey("Bill")]
         public int Bill_number { get; set; }
@@ -18,7 +18,6 @@ namespace Domain
         public Product Product { get; set; }
 
         public int Product_quantity { get; set; }
-        public int Products_cost { get; set; }
-
+        public int? Products_cost { get; set; }
     }
 }
