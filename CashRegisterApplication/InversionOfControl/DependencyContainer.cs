@@ -24,7 +24,8 @@ namespace InversionOfControl
             //Domain InMemoryBus MediatR
             services.AddScoped<IMediatorHandler, InMemoryBus>();
             //Domain Handlers
-            services.AddScoped<IRequestHandler<CreateBillCommand, bool>, BillCommandHandler>();
+            services.AddScoped<IRequestHandler<CreateBillCommand, bool>, BillCreateCommandHandler>();
+            services.AddScoped<IRequestHandler<UpdateBillCommand,bool>, BillUpdateCommandHandler>();
             //Application layer
             services.AddScoped<IBillService, BillService>();
             //InfraData Layer

@@ -16,19 +16,10 @@ namespace ApplicationLayer.Services
         private readonly IBillRepository _billRepository;
         private readonly IMediatorHandler _bus;
 
-        public BillService(IBillRepository billRepository,IMediatorHandler bus)
+        public BillService(IBillRepository billRepository, IMediatorHandler bus)
         {
-            _billRepository=billRepository;
-            _bus=bus;
-        }
-
-        public void Create(BillViewModel billViewModel)
-        {
-            var createBillCommand = new CreateBillCommand(
-                billViewModel.Bill_number,
-                billViewModel.Total_cost,
-                billViewModel.Credit_card);
-            _bus.SendCommand(createBillCommand);
+            _billRepository = billRepository;
+            _bus = bus;
         }
 
         public List<BillViewModel> GetBills()
@@ -46,6 +37,23 @@ namespace ApplicationLayer.Services
             }
             return result;
 
+        }
+        public void Create(BillViewModel billViewModel)
+        {
+            var createBillCommand = new CreateBillCommand(
+                billViewModel.Bill_number,
+                billViewModel.Total_cost,
+                billViewModel.Credit_card);
+            _bus.SendCommand(createBillCommand);
+        }
+        public void Update(BillViewModel billViewModel)
+        {
+            var updateBillCommand = new UpdateBillCommand(
+                billViewModel.Bill_number,
+                billViewModel.Total_cost,
+                billViewModel.Credit_card);
+            _bus.SendCommand(updateBillCommand); 
+            
         }
     }
 }

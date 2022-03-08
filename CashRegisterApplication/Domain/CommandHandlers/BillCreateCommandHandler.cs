@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace Domain.CommandHandlers
 {
-    public class BillCommandHandler : IRequestHandler<CreateBillCommand, bool>
+    public class BillCreateCommandHandler : IRequestHandler<CreateBillCommand, bool>
     {
         private readonly IBillRepository _billRepository;
-        public BillCommandHandler(IBillRepository billRepository)
+        public BillCreateCommandHandler(IBillRepository billRepository)
         {
             _billRepository=billRepository;
         }

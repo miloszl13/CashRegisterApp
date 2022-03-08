@@ -11,5 +11,6 @@ namespace ApplicationLayer.Interfaces
     {
         List<BillViewModel> GetBills();
         void Create(BillViewModel billViewModel);
+        void Update(BillViewModel billViewModel);
     }
 }

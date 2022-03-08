@@ -15,14 +15,33 @@ namespace InfrastructureData.Repositories
         {
             _db=context;
         }
+        //Get bill by id
+        public Bill GetBillById(int id)
+        {
+            var bill = _db.Bills.FirstOrDefault(x => x.Bill_number == id);
 
+            return bill;
+        }
+        //get all bills
         public IEnumerable<Bill> GetBills()
         {
            return _db.Bills;
         }
+        //add new bill
         public void Add(Bill bill)
         {
             _db.Add(bill);
+            _db.SaveChanges();
+        }
+        //update bill
+        public void Update(Bill bill,int id)
+        {
+            var billfromdb = GetBills().FirstOrDefault(x => x.Bill_number == id );
+            if (billfromdb != null)
+            {
+                billfromdb.Total_cost = bill.Total_cost;
+                billfromdb.Credit_card = bill.Credit_card;
+            }
             _db.SaveChanges();
         }
     }

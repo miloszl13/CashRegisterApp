@@ -14,7 +14,7 @@ namespace CashRegisterApplication.Controllers
             _billService=billService;
         }
         [HttpGet]
-        public List<BillViewModel> GetBill()
+        public List<BillViewModel> GetBills()
         {
             return _billService.GetBills();
         }
@@ -24,6 +24,13 @@ namespace CashRegisterApplication.Controllers
             _billService.Create(billViewModel);
             return Ok(billViewModel);
         }
-       
+        [HttpPut("Update")]
+        public IActionResult EditBill([FromBody] BillViewModel bill)
+        {
+            _billService.Update(bill);
+            return Ok(bill);
+        }
+
+
     }
 }
