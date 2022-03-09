@@ -25,9 +25,18 @@ namespace ApplicationLayer.Services
             _bus = bus;
         }
 
-        public List<BillViewModel> GetBills()
+        public ActionResult<List<BillViewModel>> GetBills()
         {
             var bills = _billRepository.GetBills();
+            if (bills.Count()==0)
+            {
+                var errorResponse = new ErrorResponseModel()
+                {
+                    ErrorMessage = BillErrorMessages.empty_bills_db,
+                    StatusCode = System.Net.HttpStatusCode.NotFound
+                };
+                return new NotFoundObjectResult(errorResponse);
+            }
             var result = new List<BillViewModel>();
             foreach(var bill in bills)
             {
@@ -41,21 +50,43 @@ namespace ApplicationLayer.Services
             return result;
 
         }
-        public void Create(BillViewModel billViewModel)
+        public ActionResult<bool> Create(BillViewModel billViewModel)
         {
             var createBillCommand = new CreateBillCommand(
                 billViewModel.Bill_number,
                 billViewModel.Total_cost,
                 billViewModel.Credit_card);
-            _bus.SendCommand(createBillCommand);
+            var Task = _bus.SendCommand(createBillCommand);
+            if (Task == Task.FromResult(false))
+            {
+                var errorResponse = new ErrorResponseModel()
+                {
+                    ErrorMessage = BillErrorMessages.bill_already_exist,
+                    StatusCode = System.Net.HttpStatusCode.NotFound
+                };
+                return new NotFoundObjectResult(errorResponse);
+            }
+            return true;
         }
-        public void Update(BillViewModel billViewModel)
+        public ActionResult<bool> Update(BillViewModel billViewModel)
         {
             var updateBillCommand = new UpdateBillCommand(
                 billViewModel.Bill_number,
                 billViewModel.Total_cost,
                 billViewModel.Credit_card);
-            _bus.SendCommand(updateBillCommand); 
+                var Task=_bus.SendCommand(updateBillCommand); 
+            if(Task== Task.FromResult(false))
+            {
+                var errorResponse = new ErrorResponseModel()
+                {
+                    ErrorMessage = BillErrorMessages.bill_not_exist,
+                    StatusCode = System.Net.HttpStatusCode.NotFound
+                };
+                return new NotFoundObjectResult(errorResponse);
+            }
+            return true;
+             
+            
             
         }
         //DELETE BILL FROM DB
@@ -67,7 +98,7 @@ namespace ApplicationLayer.Services
             {
                 var errorResponse = new ErrorResponseModel()
                 {
-                    ErrorMessage = ErrorMessages.bill_not_exist,
+                    ErrorMessage = BillErrorMessages.bill_not_exist,
                     StatusCode = System.Net.HttpStatusCode.NotFound
                 };
                 return new NotFoundObjectResult(errorResponse);
@@ -86,7 +117,7 @@ namespace ApplicationLayer.Services
             {
                 var errorResponse = new ErrorResponseModel()
                 {
-                    ErrorMessage = ErrorMessages.bill_not_exist,
+                    ErrorMessage = BillErrorMessages.bill_not_exist,
                     StatusCode = System.Net.HttpStatusCode.NotFound
                 };
                 return new NotFoundObjectResult(errorResponse);

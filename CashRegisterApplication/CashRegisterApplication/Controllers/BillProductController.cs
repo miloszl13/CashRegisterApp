@@ -15,16 +15,17 @@ namespace CashRegisterApplication.Controllers
         }
         //Get all billProducts
         [HttpGet("GetAllBillProducts")]
-        public List<BillProductViewModel> GetAllBillProduct()
+        public ActionResult<List<BillProductViewModel>> GetAllBillProduct()
         {           
-            return _billProductService.GetAllBillProduct();
+            var billProducts= _billProductService.GetAllBillProduct();
+            return billProducts;
         }
         //Create new bill
-        [HttpPost("AddProductToBillProduct")]
-        public IActionResult CreateBill([FromBody] BillProductViewModel billProductViewModel)
+        [HttpPost("AddNewProductToBillProduct")]
+        public ActionResult<bool> AddNewProductToBillProduct([FromBody] BillProductViewModel billProductViewModel)
         {
-            _billProductService.Create(billProductViewModel);
-            return Ok();
+            var AddingProduct = _billProductService.AddProductToBillProduct(billProductViewModel);
+            return AddingProduct;
         }
         [HttpDelete("deleteBillProduct/{id:int},{id1:int}")]
         public IActionResult DeleteBillProduct([FromRoute] int id,[FromRoute] int id1)

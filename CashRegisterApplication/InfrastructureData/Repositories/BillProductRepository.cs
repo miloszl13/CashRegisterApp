@@ -18,6 +18,7 @@ namespace InfrastructureData.Repositories
 
         public void Add(BillProduct billproduct)
         {
+
             _db.Add(billproduct);
             _db.SaveChanges();
         }
@@ -34,6 +35,7 @@ namespace InfrastructureData.Repositories
             _db.Remove(billproduct);
             _db.SaveChanges();
         }
+
 
     }
 }

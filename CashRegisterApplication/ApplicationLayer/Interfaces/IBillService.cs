@@ -10,9 +10,9 @@ namespace ApplicationLayer.Interfaces
 {
     public interface IBillService
     {
-        List<BillViewModel> GetBills();
-        void Create(BillViewModel billViewModel);
-        void Update(BillViewModel billViewModel);
+        ActionResult<List<BillViewModel>> GetBills();
+        ActionResult<bool> Create(BillViewModel billViewModel);
+        ActionResult<bool> Update(BillViewModel billViewModel);
         ActionResult<int> Delete(int id);
         ActionResult<BillViewModel> GetBillById(int id);
     }

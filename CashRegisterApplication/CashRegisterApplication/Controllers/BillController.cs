@@ -16,23 +16,24 @@ namespace CashRegisterApplication.Controllers
         }
         //get all bills
         [HttpGet("GetAllBills")]
-        public List<BillViewModel> GetBills()
+        public ActionResult<List<BillViewModel>> GetBills()
         {
-            return _billService.GetBills();
+            var BillsFromDb= _billService.GetBills();
+            return BillsFromDb;
         }
         //Create new bill
         [HttpPost("CreateNewBill")]
-        public IActionResult CreateBill([FromBody] BillViewModel billViewModel)
+        public ActionResult<bool> CreateBill([FromBody] BillViewModel billViewModel)
         {
-            _billService.Create(billViewModel);
-            return Ok(billViewModel);
+            var CreatedBill = _billService.Create(billViewModel);
+            return CreatedBill;
         }
         //update existing  bill
         [HttpPut("UpdateBill")]
-        public IActionResult EditBill([FromBody] BillViewModel bill)
+        public ActionResult<bool> EditBill([FromBody] BillViewModel bill)
         {
-            _billService.Update(bill);
-            return Ok(bill);
+            var UpdatedBill=_billService.Update(bill);
+            return UpdatedBill;
         }
         //delelete bill by id
         [HttpDelete("delete/{id}")]

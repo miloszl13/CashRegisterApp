@@ -13,24 +13,44 @@ namespace Domain.CommandHandlers
     {
         private readonly IBillProductRepository _billProductRepository;
         private readonly IProductRepository _productRepository;
-        public AddProductsToBillProductHandler(IBillProductRepository billProductRepository, IProductRepository productRepository)
+        private readonly IBillRepository _billRepository;
+        public AddProductsToBillProductHandler(IBillProductRepository billProductRepository, IProductRepository productRepository, IBillRepository billRepository)
         {
             _billProductRepository = billProductRepository;
             _productRepository=productRepository;
+            _billRepository=billRepository;
         }
         public Task<bool> Handle(AddProductsToBillProduct request, CancellationToken cancellationToken)
         {
-            Product product = _productRepository.GetProducts().FirstOrDefault(x => x.Product_id == request.Product_id);
-            var billProduct = new BillProduct()
+            try
             {
-                Bill_number = request.Bill_number,
-                Product_id = request.Product_id,
-                Product_quantity = request.Product_quantity,
-                Products_cost = (product.Cost * request.Product_quantity)
-            };
+                var product = _productRepository.GetProducts().FirstOrDefault(x => x.Product_id == request.Product_id);
+                if(product == null)
+                {
+                    return Task.FromResult(false);
+                }
+                
+                var billProduct = new BillProduct()
+                {
+                    Bill_number = request.Bill_number,
+                    Product_id = request.Product_id,
+                    Product_quantity = request.Product_quantity,
+                    Products_cost = (product.Cost * request.Product_quantity)
+                };
 
-            _billProductRepository.Add(billProduct);
-            return Task.FromResult(true);
+                _billRepository.UpdateTotalCost(billProduct.Products_cost, billProduct.Bill_number);
+                _billProductRepository.Add(billProduct);
+
+                return Task.FromResult(true);
+            }
+            catch(NullReferenceException ex)
+            {
+                return Task.FromResult(false);
+            }
+            catch (Exception ex)
+            {
+                return Task.FromResult(false);
+            }
         }
     }
 }

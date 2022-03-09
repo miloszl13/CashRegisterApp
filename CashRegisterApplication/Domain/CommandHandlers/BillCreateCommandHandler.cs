@@ -18,14 +18,21 @@ namespace Domain.CommandHandlers
         }
         public Task<bool> Handle(CreateBillCommand request, CancellationToken cancellationToken)
         {
-            var bill = new Bill()
+            try
             {
-                Bill_number = request.Bill_number,
-                Total_cost = request.Total_cost,
-                Credit_card = request.Credit_card,
-            };
-            _billRepository.Add(bill);
-            return Task.FromResult(true);
+                var bill = new Bill()
+                {
+                    Bill_number = request.Bill_number,
+                    Total_cost = request.Total_cost,
+                    Credit_card = request.Credit_card,
+                };
+                _billRepository.Add(bill);
+                return Task.FromResult(true);
+            }
+            catch (Exception ex)
+            {
+                return Task.FromResult(false);
+            }
         }
     }
 }

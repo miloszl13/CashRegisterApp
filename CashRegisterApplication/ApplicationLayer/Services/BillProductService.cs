@@ -1,8 +1,11 @@
 ﻿using ApplicationLayer.Interfaces;
+using ApplicationLayer.Model;
 using ApplicationLayer.ViewModels;
 using Domain.Commands;
+using Domain.ErrorMessages;
 using Domain.interfaces;
 using DomainCore.Bus;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,9 +25,18 @@ namespace ApplicationLayer.Services
             _bus = bus;
 
         }
-        public List<BillProductViewModel> GetAllBillProduct()
+        public ActionResult<List<BillProductViewModel>> GetAllBillProduct()
         {
             var billProducts = _billProductRepository.GetAllBillProducts();
+            if (billProducts.Count() == 0)
+            {
+                var errorResponse = new ErrorResponseModel()
+                {
+                    ErrorMessage = BillProductErrorMessages.empty_billsproducts_db,
+                    StatusCode = System.Net.HttpStatusCode.NotFound
+                };
+                return new NotFoundObjectResult(errorResponse);
+            }
             var result = new List<BillProductViewModel>();
             if (billProducts != null)
             {
@@ -41,13 +53,23 @@ namespace ApplicationLayer.Services
             }
             return result;
         }
-        public void Create(BillProductViewModel billProductViewModel)
+        public ActionResult<bool> AddProductToBillProduct(BillProductViewModel billProductViewModel)
         {
             var addProductToBillProductCommand = new AddProductsToBillProduct(
                 billProductViewModel.Bill_number,
                 billProductViewModel.Product_id,
                 billProductViewModel.Product_quantity);
-            _bus.SendCommand(addProductToBillProductCommand);
+            var Task=_bus.SendCommand(addProductToBillProductCommand);
+            if (Task == Task.FromResult(false))
+            {
+                var errorResponse = new ErrorResponseModel()
+                {
+                    ErrorMessage = BillProductErrorMessages.invalid_adding_product_to_bill,
+                    StatusCode = System.Net.HttpStatusCode.NotFound
+                };
+                return new NotFoundObjectResult(errorResponse);
+            }
+            return true;
         }
         public void Delete(int id1, int id2)
         {

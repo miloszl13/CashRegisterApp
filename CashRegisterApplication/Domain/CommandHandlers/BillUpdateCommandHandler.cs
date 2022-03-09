@@ -19,12 +19,25 @@ namespace Domain.CommandHandlers
 
         public Task<bool> Handle(UpdateBillCommand request, CancellationToken cancellationToken)
         {
-            var bill = _billRepository.GetBills().First(x => x.Bill_number == request.Bill_number);
-            bill.Bill_number = request.Bill_number;
-            bill.Total_cost = request.Total_cost;
-            bill.Credit_card = request.Credit_card;
-            _billRepository.Update(bill,bill.Bill_number);
-            return Task.FromResult(true);
+            try
+            {
+                var bill = _billRepository.GetBills().First(x => x.Bill_number == request.Bill_number);
+                if (bill != null)
+                {
+                    bill.Bill_number = request.Bill_number;
+                    bill.Total_cost = request.Total_cost;
+                    bill.Credit_card = request.Credit_card;
+                    _billRepository.Update(bill, bill.Bill_number);
+                    return Task.FromResult(true);
+                }
+                return Task.FromResult(false);
+            }
+            catch (Exception ex)
+            {
+                return Task.FromResult(false);
+            }
+            
+
         }
     }
 }

@@ -39,6 +39,21 @@ namespace InfrastructureData.Repositories
             }
             _db.SaveChanges();
         }
+        //update bill
+        public void UpdateTotalCost(int? TotalCost, int id)
+        {
+            var billfromdb = GetBills().FirstOrDefault(x => x.Bill_number == id);
+
+            if (billfromdb != null)
+            {
+                if (billfromdb.Total_cost == null)
+                {
+                    billfromdb.Total_cost = 0;
+                }
+                billfromdb.Total_cost = billfromdb.Total_cost+ TotalCost;
+            }
+            _db.SaveChanges();
+        }
         //Delete bill
         public void Delete(Bill bill)
         {

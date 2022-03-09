@@ -11,6 +11,7 @@ namespace Domain.interfaces
         IEnumerable<Bill> GetBills();
         void Add(Bill bill);
         void Update(Bill bill,int id);
+        void UpdateTotalCost(int? TotalCost, int id);
         void Delete(Bill bill);
         public Bill GetBillById(int id);
     }
