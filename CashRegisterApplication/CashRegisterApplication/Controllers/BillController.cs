@@ -37,7 +37,7 @@ namespace CashRegisterApplication.Controllers
         }
         //delelete bill by id
         [HttpDelete("delete/{id}")]
-        public ActionResult<int> DeleteBill([FromRoute] int id)
+        public ActionResult<bool> DeleteBill([FromRoute] int id)
         {
             var deletedBill = _billService.Delete(id);
             return deletedBill;

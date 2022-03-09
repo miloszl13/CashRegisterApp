@@ -71,10 +71,20 @@ namespace ApplicationLayer.Services
             }
             return true;
         }
-        public void Delete(int id1, int id2)
+        public ActionResult<bool> Delete(int id1, int id2)
         {
             var bill_product = _billProductRepository.GetAllBillProducts().FirstOrDefault(x => x.Bill_number == id1 && x.Product_id==id2);
+            if (bill_product == null)
+            {
+                var errorResponse = new ErrorResponseModel()
+                {
+                    ErrorMessage = BillProductErrorMessages.bill_product_not_exist,
+                    StatusCode = System.Net.HttpStatusCode.NotFound
+                };
+                return new NotFoundObjectResult(errorResponse);
+            }
             _billProductRepository.Delete(bill_product);
+            return true;
         }
 
     }

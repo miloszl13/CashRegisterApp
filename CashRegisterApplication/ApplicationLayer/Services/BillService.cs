@@ -90,7 +90,7 @@ namespace ApplicationLayer.Services
             
         }
         //DELETE BILL FROM DB
-        public ActionResult<int> Delete(int id)
+        public ActionResult<bool> Delete(int id)
         {
 
             var billfromdb = _billRepository.GetBills().FirstOrDefault(x => x.Bill_number == id);
@@ -104,7 +104,7 @@ namespace ApplicationLayer.Services
                 return new NotFoundObjectResult(errorResponse);
             }
             _billRepository.Delete(billfromdb);
-            return id;
+            return true;
             
             
         }

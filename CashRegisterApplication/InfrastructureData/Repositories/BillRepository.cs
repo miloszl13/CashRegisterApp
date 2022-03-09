@@ -39,7 +39,7 @@ namespace InfrastructureData.Repositories
             }
             _db.SaveChanges();
         }
-        //update bill
+        //update bill total cost
         public void UpdateTotalCost(int? TotalCost, int id)
         {
             var billfromdb = GetBills().FirstOrDefault(x => x.Bill_number == id);
