@@ -27,7 +27,13 @@ namespace InfrastructureData.Repositories
         {
                 return _db.Bill_Products;
         }
-   
+        //Delete bill_product
+        public void Delete(BillProduct billproduct)
+        {
+
+            _db.Remove(billproduct);
+            _db.SaveChanges();
+        }
 
     }
 }

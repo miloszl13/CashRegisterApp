@@ -25,6 +25,12 @@ namespace CashRegisterApplication.Controllers
             _billProductService.Create(billProductViewModel);
             return Ok();
         }
-        
+        [HttpDelete("delete/{id:int},{id1:int}")]
+        public IActionResult DeleteBillProduct([FromRoute] int id,[FromRoute] int id1)
+        {
+            _billProductService.Delete(id,id1);
+            return Ok();
+        }
+
     }
 }

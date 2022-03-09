@@ -49,5 +49,11 @@ namespace ApplicationLayer.Services
                 billProductViewModel.Product_quantity);
             _bus.SendCommand(addProductToBillProductCommand);
         }
+        public void Delete(int id1, int id2)
+        {
+            var bill_product = _billProductRepository.GetAllBillProducts().FirstOrDefault(x => x.Bill_number == id1 && x.Product_id==id2);
+            _billProductRepository.Delete(bill_product);
+        }
+
     }
 }

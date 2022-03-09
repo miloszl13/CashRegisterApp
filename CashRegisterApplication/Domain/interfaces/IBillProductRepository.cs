@@ -11,6 +11,7 @@ namespace Domain.interfaces
         void Add(BillProduct billproduct);
 
         IEnumerable<BillProduct> GetAllBillProducts();
+        void Delete(BillProduct billproduct);
 
     }
 }

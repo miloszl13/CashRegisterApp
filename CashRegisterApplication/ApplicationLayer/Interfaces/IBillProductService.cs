@@ -11,6 +11,7 @@ namespace ApplicationLayer.Interfaces
     {
         List<BillProductViewModel> GetAllBillProduct();
         void Create(BillProductViewModel billProductViewModel);
+        void Delete(int id1,int id2);
 
     }
 }
