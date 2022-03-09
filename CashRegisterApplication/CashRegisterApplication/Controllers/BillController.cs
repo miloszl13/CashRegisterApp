@@ -14,20 +14,20 @@ namespace CashRegisterApplication.Controllers
             _billService=billService;
         }
         //get all bills
-        [HttpGet]
+        [HttpGet("GetAllBills")]
         public List<BillViewModel> GetBills()
         {
             return _billService.GetBills();
         }
         //Create new bill
-        [HttpPost]
+        [HttpPost("CreateNewBill")]
         public IActionResult CreateBill([FromBody] BillViewModel billViewModel)
         {
             _billService.Create(billViewModel);
             return Ok(billViewModel);
         }
         //update existing  bill
-        [HttpPut("Update")]
+        [HttpPut("UpdateBill")]
         public IActionResult EditBill([FromBody] BillViewModel bill)
         {
             _billService.Update(bill);
@@ -41,7 +41,7 @@ namespace CashRegisterApplication.Controllers
             return Ok(id);
         }
         //get bill by id
-        [HttpGet("{id}")]
+        [HttpGet("GetBillById{id}")]
         public BillViewModel GetBillById([FromRoute] int id)
         {
             return _billService.GetBillById(id);
