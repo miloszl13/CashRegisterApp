@@ -1,8 +1,11 @@
 ﻿using ApplicationLayer.Interfaces;
+using ApplicationLayer.Model;
 using ApplicationLayer.ViewModels;
+using Domain;
 using Domain.Commands;
 using Domain.interfaces;
 using DomainCore.Bus;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -55,21 +58,60 @@ namespace ApplicationLayer.Services
             _bus.SendCommand(updateBillCommand); 
             
         }
-        public void Delete(int id)
+        //DELETE BILL FROM DB
+        public ActionResult<int> Delete(int id)
         {
+
             var billfromdb = _billRepository.GetBills().FirstOrDefault(x => x.Bill_number == id);
+            if (billfromdb == null)
+            {
+                var errorResponse = new ErrorResponseModel()
+                {
+                    ErrorMessage = ErrorMessages.bill_not_exist,
+                    StatusCode = System.Net.HttpStatusCode.NotFound
+                };
+                return new NotFoundObjectResult(errorResponse);
+            }
             _billRepository.Delete(billfromdb);
+            return id;
+            
+            
         }
-        public BillViewModel GetBillById(int id)
+        //GET BILL BY ID
+        public ActionResult<BillViewModel> GetBillById(int id)
         {
             var billfromdb = _billRepository.GetBillById(id);
-            var result = new BillViewModel {
-            Bill_number = billfromdb.Bill_number,
-            Total_cost = billfromdb.Total_cost,
-            Credit_card = billfromdb.Credit_card
-        };
-            return result;
 
+            if (billfromdb == null)
+            {
+                var errorResponse = new ErrorResponseModel()
+                {
+                    ErrorMessage = ErrorMessages.bill_not_exist,
+                    StatusCode = System.Net.HttpStatusCode.NotFound
+                };
+                return new NotFoundObjectResult(errorResponse);
+            }
+           
+            
+            List<BillProductViewModel> billProducts = new List<BillProductViewModel>();
+            foreach(BillProduct bp in billfromdb.Bill_Products)
+            {
+                billProducts.Add(new BillProductViewModel
+                {
+                    Bill_number = bp.Bill_number,
+                    Product_id = bp.Product_id,
+                    Product_quantity = bp.Product_quantity,
+                    Products_cost = bp.Products_cost
+                });
+            }
+            var result = new BillViewModel
+            {
+                Bill_number = billfromdb.Bill_number,
+                Total_cost = billfromdb.Total_cost,
+                Credit_card = billfromdb.Credit_card,
+                Bill_Products = billProducts
+            };
+            return result;
         }
 
     }

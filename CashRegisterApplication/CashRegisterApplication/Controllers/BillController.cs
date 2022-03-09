@@ -1,5 +1,6 @@
 ﻿using ApplicationLayer.Interfaces;
 using ApplicationLayer.ViewModels;
+using Domain;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CashRegisterApplication.Controllers
@@ -35,19 +36,18 @@ namespace CashRegisterApplication.Controllers
         }
         //delelete bill by id
         [HttpDelete("delete/{id}")]
-        public IActionResult DeleteBill([FromRoute] int id)
+        public ActionResult<int> DeleteBill([FromRoute] int id)
         {
-            _billService.Delete(id);
-            return Ok(id);
+            var deletedBill = _billService.Delete(id);
+            return deletedBill;
         }
         //get bill by id
         [HttpGet("GetBillById{id}")]
-        public BillViewModel GetBillById([FromRoute] int id)
+        public ActionResult<BillViewModel> GetBillById([FromRoute] int id)
         {
-            return _billService.GetBillById(id);
-        
+           var billFromDb = _billService.GetBillById(id);
+           return billFromDb;
         }
-
 
     }
 }

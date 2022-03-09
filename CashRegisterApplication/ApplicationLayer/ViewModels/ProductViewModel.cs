@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,5 +12,7 @@ namespace ApplicationLayer.ViewModels
         public int Product_id { get; set; }
         public string Name { get; set; }
         public int Cost { get; set; }
+        public ICollection<BillProduct> Bill_Products { get; set; }
+
     }
 }

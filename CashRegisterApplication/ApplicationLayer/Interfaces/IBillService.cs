@@ -1,4 +1,5 @@
 ﻿using ApplicationLayer.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace ApplicationLayer.Interfaces
         List<BillViewModel> GetBills();
         void Create(BillViewModel billViewModel);
         void Update(BillViewModel billViewModel);
-        void Delete(int id);
-        BillViewModel GetBillById(int id);
+        ActionResult<int> Delete(int id);
+        ActionResult<BillViewModel> GetBillById(int id);
     }
 }

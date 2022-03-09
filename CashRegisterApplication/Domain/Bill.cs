@@ -15,6 +15,6 @@ namespace Domain
         public int Bill_number { get; set; }
         public int? Total_cost { get; set; }
         public int? Credit_card { get; set; }
-        public ICollection<BillProduct> Bill_Products { get; set; }
+        public List<BillProduct> Bill_Products { get; set; }
     }
 }
