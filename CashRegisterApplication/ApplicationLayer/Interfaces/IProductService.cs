@@ -1,4 +1,5 @@
 ﻿using ApplicationLayer.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,10 @@ namespace ApplicationLayer.Interfaces
 {
     public interface IProductService
     {
-        List<ProductViewModel> GetProducts();
+       ActionResult<List<ProductViewModel>> GetProducts();
+       ActionResult<bool> Delete(int id);
+       ActionResult<bool> Update(ProductViewModel productViewModel);
+        ActionResult<bool> Create(ProductViewModel productViewModel);
+
     }
 }

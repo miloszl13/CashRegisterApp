@@ -1,6 +1,11 @@
 ﻿using ApplicationLayer.Interfaces;
+using ApplicationLayer.Model;
 using ApplicationLayer.ViewModels;
+using Domain.Commands;
+using Domain.ErrorMessages;
 using Domain.interfaces;
+using DomainCore.Bus;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,14 +17,26 @@ namespace ApplicationLayer.Services
     public class ProductService : IProductService
     {
         private readonly IProductRepository _productRepository;
-        public ProductService(IProductRepository productRepository)
+        private readonly IMediatorHandler _bus;
+
+        public ProductService(IProductRepository productRepository, IMediatorHandler bus)
         {
             _productRepository=productRepository;
+            _bus=bus;
         }
 
-        public List<ProductViewModel> GetProducts()
+        public ActionResult<List<ProductViewModel>> GetProducts()
         {
             var products = _productRepository.GetProducts();
+            if(products.Count()==0)
+            {
+                var errorResponse = new ErrorResponseModel()
+                {
+                    ErrorMessage = ProductErrorMessages.empty_products_db,
+                    StatusCode = System.Net.HttpStatusCode.NotFound
+                };
+                return new NotFoundObjectResult(errorResponse);
+            }
             var result = new List<ProductViewModel>();
             foreach (var product in products)
             {
@@ -32,5 +49,64 @@ namespace ApplicationLayer.Services
             }
             return result;
         }
+        public ActionResult<bool> Delete(int id)
+        {
+
+            var product = _productRepository.GetProducts().FirstOrDefault(x => x.Product_id == id);
+            if (product == null)
+            {
+                var errorResponse = new ErrorResponseModel()
+                {
+                    ErrorMessage = ProductErrorMessages.product_doesnt_exist,
+                    StatusCode = System.Net.HttpStatusCode.NotFound
+                };
+                return new NotFoundObjectResult(errorResponse);
+            }
+            _productRepository.Delete(product);
+            return true;
+
+
+        }
+        public ActionResult<bool> Create(ProductViewModel productViewModel)
+        {
+            var createProductCommand = new CreateProductCommand(
+                productViewModel.Product_id,
+                productViewModel.Name,
+                productViewModel.Cost
+                );
+            var Task = _bus.SendCommand(createProductCommand);
+            if (Task == Task.FromResult(false))
+            {
+                var errorResponse = new ErrorResponseModel()
+                {
+                    ErrorMessage = ProductErrorMessages.product_already_exist,
+                    StatusCode = System.Net.HttpStatusCode.BadRequest
+                };
+                return new BadRequestObjectResult(errorResponse);
+            }
+            return true;
+        }
+            public ActionResult<bool> Update(ProductViewModel productViewModel)
+            {
+            var updateProductCommand = new UpdateProductCommand(
+                productViewModel.Product_id,
+                productViewModel.Name,
+                productViewModel.Cost
+                );
+                var Task = _bus.SendCommand(updateProductCommand);
+                if (Task == Task.FromResult(false))
+                {
+                    var errorResponse = new ErrorResponseModel()
+                    {
+                        ErrorMessage = ProductErrorMessages.product_doesnt_exist,
+                        StatusCode = System.Net.HttpStatusCode.NotFound
+                    };
+                    return new NotFoundObjectResult(errorResponse);
+                }
+                return true;
+
+
+            }
+        }
     }
-}
+

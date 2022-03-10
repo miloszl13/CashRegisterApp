@@ -38,7 +38,7 @@ namespace Domain.CommandHandlers
                     Products_cost = (product.Cost * request.Product_quantity)
                 };
 
-                _billRepository.UpdateTotalCost(billProduct.Products_cost, billProduct.Bill_number);
+                _billRepository.IncreaseTotalCost(billProduct.Products_cost, billProduct.Bill_number);
                 _billProductRepository.Add(billProduct);
 
                 return Task.FromResult(true);

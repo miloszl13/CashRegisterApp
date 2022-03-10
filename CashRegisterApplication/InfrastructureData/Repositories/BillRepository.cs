@@ -20,7 +20,7 @@ namespace InfrastructureData.Repositories
         //get all bills
         public IEnumerable<Bill> GetBills()
         {
-           return _db.Bills;
+            return _db.Bills.Include(x => x.Bill_Products);
         }
         //add new bill
         public void Add(Bill bill)
@@ -40,7 +40,7 @@ namespace InfrastructureData.Repositories
             _db.SaveChanges();
         }
         //update bill total cost
-        public void UpdateTotalCost(int? TotalCost, int id)
+        public void IncreaseTotalCost(int? TotalCost, int id)
         {
             var billfromdb = GetBills().FirstOrDefault(x => x.Bill_number == id);
 
@@ -51,6 +51,17 @@ namespace InfrastructureData.Repositories
                     billfromdb.Total_cost = 0;
                 }
                 billfromdb.Total_cost = billfromdb.Total_cost+ TotalCost;
+            }
+            _db.SaveChanges();
+        }
+        public void DecreaseTotalCost(int? TotalCost,int id)
+        {
+            var billfromdb = GetBills().FirstOrDefault(x => x.Bill_number == id);
+
+            if (billfromdb != null)
+            {
+
+                billfromdb.Total_cost = billfromdb.Total_cost - TotalCost;
             }
             _db.SaveChanges();
         }

@@ -1,18 +1,16 @@
-﻿using Domain;
+﻿using DomainCore.Commands;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ApplicationLayer.ViewModels
+namespace Domain.Commands
 {
-    public class ProductViewModel
+    public class ProductCommand: Command
     {
         public int Product_id { get; set; }
         public string Name { get; set; }
         public int Cost { get; set; }
-        //public List<BillProductViewModel> Bill_Products { get; set; }
-
     }
 }

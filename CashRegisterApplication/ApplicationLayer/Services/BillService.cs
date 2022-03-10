@@ -5,7 +5,9 @@ using Domain;
 using Domain.Commands;
 using Domain.interfaces;
 using DomainCore.Bus;
+using InfrastructureData;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,7 +29,7 @@ namespace ApplicationLayer.Services
 
         public ActionResult<List<BillViewModel>> GetBills()
         {
-            var bills = _billRepository.GetBills();
+            var bills = _billRepository.GetBills().ToList();
             if (bills.Count()==0)
             {
                 var errorResponse = new ErrorResponseModel()
@@ -37,14 +39,30 @@ namespace ApplicationLayer.Services
                 };
                 return new NotFoundObjectResult(errorResponse);
             }
+
             var result = new List<BillViewModel>();
-            foreach(var bill in bills)
+            foreach (var bill in bills)
             {
+                var billfromdb = bills.FirstOrDefault(x => x.Bill_number == bill.Bill_number); 
+
+                List<BillProductViewModel> billProducts = new List<BillProductViewModel>();
+
+                foreach (BillProduct bp in billfromdb.Bill_Products)
+                {
+                    billProducts.Add(new BillProductViewModel
+                    {
+                        Bill_number = bp.Bill_number,
+                        Product_id = bp.Product_id,
+                        Product_quantity = bp.Product_quantity,
+                        Products_cost = bp.Products_cost
+                    });
+                }
                 result.Add(new BillViewModel
                 {
                     Bill_number = bill.Bill_number,
                     Total_cost = bill.Total_cost,
-                    Credit_card = bill.Credit_card
+                    Credit_card = bill.Credit_card,
+                    Bill_Products = billProducts
                 });
             }
             return result;
@@ -62,9 +80,9 @@ namespace ApplicationLayer.Services
                 var errorResponse = new ErrorResponseModel()
                 {
                     ErrorMessage = BillErrorMessages.bill_already_exist,
-                    StatusCode = System.Net.HttpStatusCode.NotFound
+                    StatusCode = System.Net.HttpStatusCode.BadRequest
                 };
-                return new NotFoundObjectResult(errorResponse);
+                return new BadRequestObjectResult(errorResponse);
             }
             return true;
         }
@@ -85,8 +103,7 @@ namespace ApplicationLayer.Services
                 return new NotFoundObjectResult(errorResponse);
             }
             return true;
-             
-            
+                      
             
         }
         //DELETE BILL FROM DB

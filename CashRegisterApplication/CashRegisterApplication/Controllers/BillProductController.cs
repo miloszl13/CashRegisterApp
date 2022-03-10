@@ -27,10 +27,16 @@ namespace CashRegisterApplication.Controllers
             var AddingProduct = _billProductService.AddProductToBillProduct(billProductViewModel);
             return AddingProduct;
         }
-        [HttpDelete("deleteBillProduct/{id:int},{id1:int}")]
-        public ActionResult<bool> DeleteBillProduct([FromRoute] int id,[FromRoute] int id1)
+        //
+        //
+        //
+        //
+        //
+        //
+        [HttpDelete("deleteBillProduct/{id:int},{id1:int},{quantity:int}")]
+        public ActionResult<bool> DeleteBillProduct([FromRoute] int id,[FromRoute] int id1,[FromRoute] int quantity)
         {
-            var DeleteBillProduct = _billProductService.Delete(id,id1);
+            var DeleteBillProduct = _billProductService.Delete(id,id1,quantity);
             return DeleteBillProduct;
         }
 

@@ -12,6 +12,7 @@ namespace Domain.interfaces
 
         IEnumerable<BillProduct> GetAllBillProducts();
         void Delete(BillProduct billproduct);
+        void Update(BillProduct billproduct);
 
     }
 }

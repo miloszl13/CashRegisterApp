@@ -15,9 +15,31 @@ namespace CashRegisterApplication.Controllers
         }
         //get all products
         [HttpGet]
-        public List<ProductViewModel> GetBills()
+        public ActionResult<List<ProductViewModel>> GetBills()
         {
-            return _productService.GetProducts();
+            var productsDb= _productService.GetProducts();
+            return productsDb;
         }
+        [HttpDelete("DeleteProduct/{id:int}")]
+        public ActionResult<bool> Delete([FromRoute] int id)
+        {
+            var deleteProduct = _productService.Delete(id);
+            return deleteProduct;
+        }
+        [HttpPost("CreateProducts")]
+        public ActionResult<bool> Create([FromBody] ProductViewModel productViewModel)
+        {
+            var createProduct = _productService.Create(productViewModel);
+            return createProduct;
+        }
+        //update existing  product
+        [HttpPut("UpdateProduct")]
+        public ActionResult<bool> EditProduct([FromBody] ProductViewModel productViewModel)
+        {
+            var UpdatedProduct = _productService.Update(productViewModel);
+            return UpdatedProduct;
+        }
+
+
     }
 }

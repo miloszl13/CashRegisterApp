@@ -27,10 +27,13 @@ namespace InversionOfControl
             services.AddScoped<IRequestHandler<CreateBillCommand, bool>, BillCreateCommandHandler>();
             services.AddScoped<IRequestHandler<UpdateBillCommand,bool>, BillUpdateCommandHandler>();
             services.AddScoped<IRequestHandler<AddProductsToBillProduct,bool>, AddProductsToBillProductHandler>();
+            services.AddScoped<IRequestHandler<CreateProductCommand,bool>, CreateProductCommandHandler>();
+            services.AddScoped<IRequestHandler<UpdateProductCommand,bool>, UpdateProductCommandHandler>();
             //Application layer
             services.AddScoped<IBillService, BillService>();
             services.AddScoped<IBillProductService, BillProductService>();
             services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<ICurrencyExchangeService, CurrencyExchangeService>();
             //InfraData Layer
             services.AddScoped<IBillRepository, BillRepository>();
             services.AddScoped<IBillProductRepository, BillProductRepository>();
