@@ -9,7 +9,7 @@ namespace Domain.Commands
 {
     public class BillCommand:Command
     {
-        public int Bill_number { get; set; }
+        public string Bill_number { get; set; }
         public int? Total_cost { get; set; }
         public int? Credit_card { get; set; }
     }

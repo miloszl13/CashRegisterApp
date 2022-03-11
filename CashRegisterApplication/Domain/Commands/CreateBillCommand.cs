@@ -8,7 +8,7 @@ namespace Domain.Commands
 {
     public class CreateBillCommand:BillCommand
     {
-        public CreateBillCommand(int bill_number,int? total_cost,int? credit_card)
+        public CreateBillCommand(string bill_number,int? total_cost,int? credit_card)
         {
             Bill_number=bill_number;
             Total_cost=total_cost;

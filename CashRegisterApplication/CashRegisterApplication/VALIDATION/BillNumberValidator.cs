@@ -10,19 +10,19 @@ namespace CashRegisterApplication.VALIDATION
         {
             RuleFor(x => x.Bill_number).Must(IsValidBillNumber);
         }
-        private bool IsValidBillNumber(int billnumber)
+        private bool IsValidBillNumber(string billnumber)
         {
-            string billnumberstring = billnumber.ToString();
-            if(billnumberstring.Length<18)
+           
+            if (billnumber.Length < 18)
             {
                 return false;
             }
-            int controlNumber = Convert.ToInt32(billnumberstring.Substring(billnumberstring.Length - 2));
-            long firsttwoparts = Convert.ToInt64(billnumberstring.Substring(0, 16));
+            int controlNumber = Convert.ToInt32(billnumber.Substring(billnumber.Length - 2));
+            long firsttwoparts = Convert.ToInt64(billnumber.Substring(0, 16));
             long multiple = firsttwoparts * 100;
             long divide = multiple % 97;
             var result = 98 - divide;
-            if(result==controlNumber)
+            if (result == controlNumber)
             {
                 return true;
             }

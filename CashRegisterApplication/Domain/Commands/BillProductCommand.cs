@@ -10,7 +10,7 @@ namespace Domain.Commands
     public class BillProductCommand:Command
     {
 
-        public int Bill_number { get; set; }
+        public string Bill_number { get; set; }
 
         public int Product_id { get; set; }
 

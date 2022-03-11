@@ -11,7 +11,7 @@ namespace Domain
     public class BillProduct
     {
         [ForeignKey("Bill")]
-        public int Bill_number { get; set; }
+        public string Bill_number { get; set; }
         public Bill Bill { get; set; }
         [ForeignKey("Product")]
         public int Product_id { get; set; }

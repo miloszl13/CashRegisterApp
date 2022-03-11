@@ -11,7 +11,7 @@ namespace ApplicationLayer.ViewModels
     public class BillProductViewModel
     {
         [ForeignKey("Bill")]
-        public int Bill_number { get; set; }
+        public string Bill_number { get; set; }
         [ForeignKey("Product")]
         public int Product_id { get; set; }
 

@@ -24,8 +24,8 @@ namespace InfrastructureData.Migrations
 
             modelBuilder.Entity("Domain.Bill", b =>
                 {
-                    b.Property<int>("Bill_number")
-                        .HasColumnType("integer");
+                    b.Property<string>("Bill_number")
+                        .HasColumnType("text");
 
                     b.Property<int?>("Credit_card")
                         .HasColumnType("integer");
@@ -40,8 +40,8 @@ namespace InfrastructureData.Migrations
 
             modelBuilder.Entity("Domain.BillProduct", b =>
                 {
-                    b.Property<int>("Bill_number")
-                        .HasColumnType("integer");
+                    b.Property<string>("Bill_number")
+                        .HasColumnType("text");
 
                     b.Property<int>("Product_id")
                         .HasColumnType("integer");

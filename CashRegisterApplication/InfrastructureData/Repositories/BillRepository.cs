@@ -29,7 +29,7 @@ namespace InfrastructureData.Repositories
             _db.SaveChanges();
         }
         //update bill
-        public void Update(Bill bill,int id)
+        public void Update(Bill bill,string id)
         {
             var billfromdb = GetBills().FirstOrDefault(x => x.Bill_number == id );
             if (billfromdb != null)
@@ -40,7 +40,7 @@ namespace InfrastructureData.Repositories
             _db.SaveChanges();
         }
         //update bill total cost
-        public void IncreaseTotalCost(int? TotalCost, int id)
+        public void IncreaseTotalCost(int? TotalCost, string id)
         {
             var billfromdb = GetBills().FirstOrDefault(x => x.Bill_number == id);
 
@@ -54,7 +54,7 @@ namespace InfrastructureData.Repositories
             }
             _db.SaveChanges();
         }
-        public void DecreaseTotalCost(int? TotalCost,int id)
+        public void DecreaseTotalCost(int? TotalCost,string id)
         {
             var billfromdb = GetBills().FirstOrDefault(x => x.Bill_number == id);
 
@@ -72,7 +72,7 @@ namespace InfrastructureData.Repositories
             _db.SaveChanges();
         }
         //Get bill by id
-        public Bill GetBillById(int id)
+        public Bill GetBillById(string id)
         {
 
             var bill = _db.Bills.Include(x=>x.Bill_Products).FirstOrDefault(x => x.Bill_number == id);

@@ -10,11 +10,11 @@ namespace Domain.interfaces
     {
         IEnumerable<Bill> GetBills();
         void Add(Bill bill);
-        void Update(Bill bill,int id);
-        void IncreaseTotalCost(int? TotalCost, int id);
+        void Update(Bill bill,string id);
+        void IncreaseTotalCost(int? TotalCost, string id);
         //NOVO
-        void DecreaseTotalCost(int? TotalCost,int id);
+        void DecreaseTotalCost(int? TotalCost,string id);
         void Delete(Bill bill);
-        public Bill GetBillById(int id);
+        public Bill GetBillById(string id);
     }
 }

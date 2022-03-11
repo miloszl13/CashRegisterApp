@@ -51,7 +51,7 @@ namespace ApplicationLayer.Services
                 {
                     billProducts.Add(new BillProductViewModel
                     {
-                        Bill_number = bp.Bill_number,
+                        Bill_number = bp.Bill_number.ToString(),
                         Product_id = bp.Product_id,
                         Product_quantity = bp.Product_quantity,
                         Products_cost = bp.Products_cost
@@ -59,7 +59,7 @@ namespace ApplicationLayer.Services
                 }
                 result.Add(new BillViewModel
                 {
-                    Bill_number = bill.Bill_number,
+                    Bill_number = bill.Bill_number.ToString(),
                     Total_cost = bill.Total_cost,
                     Credit_card = bill.Credit_card,
                     Bill_Products = billProducts
@@ -71,7 +71,7 @@ namespace ApplicationLayer.Services
         public ActionResult<bool> Create(BillViewModel billViewModel)
         {
             var createBillCommand = new CreateBillCommand(
-                billViewModel.Bill_number,
+                billViewModel.Bill_number.ToString(),
                 billViewModel.Total_cost,
                 billViewModel.Credit_card);
             var Task = _bus.SendCommand(createBillCommand);
@@ -89,11 +89,11 @@ namespace ApplicationLayer.Services
         public ActionResult<bool> Update(BillViewModel billViewModel)
         {
             var updateBillCommand = new UpdateBillCommand(
-                billViewModel.Bill_number,
+                billViewModel.Bill_number.ToString(),
                 billViewModel.Total_cost,
                 billViewModel.Credit_card);
-                var Task=_bus.SendCommand(updateBillCommand); 
-            if(Task== Task.FromResult(false))
+            var Task = _bus.SendCommand(updateBillCommand);
+            if (Task == Task.FromResult(false))
             {
                 var errorResponse = new ErrorResponseModel()
                 {
@@ -103,11 +103,11 @@ namespace ApplicationLayer.Services
                 return new NotFoundObjectResult(errorResponse);
             }
             return true;
-                      
-            
+
+
         }
         //DELETE BILL FROM DB
-        public ActionResult<bool> Delete(int id)
+        public ActionResult<bool> Delete(string id)
         {
 
             var billfromdb = _billRepository.GetBills().FirstOrDefault(x => x.Bill_number == id);
@@ -126,7 +126,7 @@ namespace ApplicationLayer.Services
             
         }
         //GET BILL BY ID
-        public ActionResult<BillViewModel> GetBillById(int id)
+        public ActionResult<BillViewModel> GetBillById(string id)
         {
             var billfromdb = _billRepository.GetBillById(id);
 
@@ -154,7 +154,7 @@ namespace ApplicationLayer.Services
             }
             var result = new BillViewModel
             {
-                Bill_number = billfromdb.Bill_number,
+                Bill_number = billfromdb.Bill_number.ToString(),
                 Total_cost = billfromdb.Total_cost,
                 Credit_card = billfromdb.Credit_card,
                 Bill_Products = billProducts

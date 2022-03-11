@@ -1,4 +1,5 @@
 ﻿using ApplicationLayer.Interfaces;
+using ApplicationLayer.Model;
 using ApplicationLayer.ViewModels;
 using Domain;
 using Microsoft.AspNetCore.Mvc;
@@ -24,11 +25,7 @@ namespace CashRegisterApplication.Controllers
         //Create new bill
         [HttpPost("CreateNewBill")]
         public ActionResult<bool> CreateBill([FromBody] BillViewModel billViewModel)
-        {
-            if(!ModelState.IsValid)
-            {
-                return StatusCode(StatusCodes.Status400BadRequest, ModelState);
-            }
+        {          
             var CreatedBill = _billService.Create(billViewModel);
             return CreatedBill;
         }
@@ -41,14 +38,17 @@ namespace CashRegisterApplication.Controllers
         }
         //delelete bill by id
         [HttpDelete("delete/{id}")]
-        public ActionResult<bool> DeleteBill([FromRoute] int id)
+        public ActionResult<bool> DeleteBill([FromRoute] string id)
         {
             var deletedBill = _billService.Delete(id);
             return deletedBill;
         }
         //get bill by id
+        //
+        //
+        //
         [HttpGet("GetBillById{id}")]
-        public ActionResult<BillViewModel> GetBillById([FromRoute] int id)
+        public ActionResult<BillViewModel> GetBillById([FromRoute] string id)
         {
            var billFromDb = _billService.GetBillById(id);
            return billFromDb;

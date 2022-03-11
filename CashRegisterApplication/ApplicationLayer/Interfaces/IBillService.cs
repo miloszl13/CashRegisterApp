@@ -13,7 +13,7 @@ namespace ApplicationLayer.Interfaces
         ActionResult<List<BillViewModel>> GetBills();
         ActionResult<bool> Create(BillViewModel billViewModel);
         ActionResult<bool> Update(BillViewModel billViewModel);
-        ActionResult<bool> Delete(int id);
-        ActionResult<BillViewModel> GetBillById(int id);
+        ActionResult<bool> Delete(string id);
+        ActionResult<BillViewModel> GetBillById(string id);
     }
 }

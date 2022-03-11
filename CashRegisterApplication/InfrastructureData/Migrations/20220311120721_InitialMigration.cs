@@ -13,9 +13,9 @@ namespace InfrastructureData.Migrations
                 name: "Bills",
                 columns: table => new
                 {
-                    Bill_number = table.Column<int>(type: "integer", nullable: false),
-                    Total_cost = table.Column<int>(type: "integer", nullable: false),
-                    Credit_card = table.Column<int>(type: "integer", nullable: false)
+                    Bill_number = table.Column<string>(type: "text", nullable: false),
+                    Total_cost = table.Column<int>(type: "integer", nullable: true),
+                    Credit_card = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -40,10 +40,10 @@ namespace InfrastructureData.Migrations
                 name: "Bill_Products",
                 columns: table => new
                 {
-                    Bill_number = table.Column<int>(type: "integer", nullable: false),
+                    Bill_number = table.Column<string>(type: "text", nullable: false),
                     Product_id = table.Column<int>(type: "integer", nullable: false),
                     Product_quantity = table.Column<int>(type: "integer", nullable: false),
-                    Products_cost = table.Column<int>(type: "integer", nullable: false)
+                    Products_cost = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
