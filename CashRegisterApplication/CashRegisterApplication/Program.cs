@@ -2,15 +2,32 @@ using InfrastructureData;
 using InversionOfControl;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
+using FluentValidation.AspNetCore;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
+
 static void RegisterService(IServiceCollection services)
 {
     DependencyContainer.RegisterServices(services);
 }
 // Add services to the container.
-
-builder.Services.AddControllers();
+//
+//
+//
+//
+//FLUENT VALIDATION
+builder.Services.AddControllers().AddFluentValidation(options =>
+{
+    // Validate child properties and root collection elements
+    options.ImplicitlyValidateChildProperties = true;
+    options.ImplicitlyValidateRootCollectionElements = true;
+    // Automatic registration of validators in assembly
+    options.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+}); 
+//
+//
+//
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

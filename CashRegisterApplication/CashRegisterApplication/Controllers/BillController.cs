@@ -25,6 +25,10 @@ namespace CashRegisterApplication.Controllers
         [HttpPost("CreateNewBill")]
         public ActionResult<bool> CreateBill([FromBody] BillViewModel billViewModel)
         {
+            if(!ModelState.IsValid)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest, ModelState);
+            }
             var CreatedBill = _billService.Create(billViewModel);
             return CreatedBill;
         }
