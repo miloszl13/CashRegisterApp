@@ -13,19 +13,19 @@ namespace CashRegisterApplication.Controllers
         private readonly IBillService _billService;
         public BillController(IBillService billService)
         {
-            _billService=billService;
+            _billService = billService;
         }
         //get all bills
         [HttpGet("GetAllBills")]
         public ActionResult<List<BillViewModel>> GetBills()
         {
-            var BillsFromDb= _billService.GetBills();
+            var BillsFromDb = _billService.GetBills();
             return BillsFromDb;
         }
         //Create new bill
         [HttpPost("CreateNewBill")]
         public ActionResult<bool> CreateBill([FromBody] BillViewModel billViewModel)
-        {          
+        {
             var CreatedBill = _billService.Create(billViewModel);
             return CreatedBill;
         }
@@ -33,7 +33,7 @@ namespace CashRegisterApplication.Controllers
         [HttpPut("UpdateBill")]
         public ActionResult<bool> EditBill([FromBody] BillViewModel bill)
         {
-            var UpdatedBill=_billService.Update(bill);
+            var UpdatedBill = _billService.Update(bill);
             return UpdatedBill;
         }
         //delelete bill by id
@@ -50,9 +50,17 @@ namespace CashRegisterApplication.Controllers
         [HttpGet("GetBillById{id}")]
         public ActionResult<BillViewModel> GetBillById([FromRoute] string id)
         {
-           var billFromDb = _billService.GetBillById(id);
-           return billFromDb;
+            var billFromDb = _billService.GetBillById(id);
+            return billFromDb;
         }
-
+        //
+        //
+        //CREDIT CARD
+        [HttpPost("AddCreditCardToBill/{Bill_number},{CardNumber}")]
+        public ActionResult<BillViewModel> AddCreditCard([FromRoute] string Bill_number, [FromRoute] string CardNumber)
+        {
+            var creditCard = _billService.AddCreditCard(CardNumber, Bill_number);
+            return creditCard;
+        }
     }
 }

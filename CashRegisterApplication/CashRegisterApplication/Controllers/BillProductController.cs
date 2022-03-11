@@ -33,10 +33,10 @@ namespace CashRegisterApplication.Controllers
         //
         //
         //
-        [HttpDelete("deleteBillProduct/{id:int},{id1:int},{quantity:int}")]
-        public ActionResult<bool> DeleteBillProduct([FromRoute] string id,[FromRoute] int id1,[FromRoute] int quantity)
+        [HttpDelete("deleteBillProduct/{Bill_number},{Product_id},{quantity}")]
+        public ActionResult<bool> DeleteBillProduct([FromRoute] string Bill_number, [FromRoute] int Product_id, [FromRoute] int quantity)
         {
-            var DeleteBillProduct = _billProductService.Delete(id,id1,quantity);
+            var DeleteBillProduct = _billProductService.Delete(Bill_number,Product_id,quantity);
             return DeleteBillProduct;
         }
 

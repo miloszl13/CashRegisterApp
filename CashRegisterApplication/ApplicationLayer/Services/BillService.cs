@@ -51,7 +51,7 @@ namespace ApplicationLayer.Services
                 {
                     billProducts.Add(new BillProductViewModel
                     {
-                        Bill_number = bp.Bill_number.ToString(),
+                        Bill_number = bp.Bill_number,
                         Product_id = bp.Product_id,
                         Product_quantity = bp.Product_quantity,
                         Products_cost = bp.Products_cost
@@ -59,7 +59,7 @@ namespace ApplicationLayer.Services
                 }
                 result.Add(new BillViewModel
                 {
-                    Bill_number = bill.Bill_number.ToString(),
+                    Bill_number = bill.Bill_number,
                     Total_cost = bill.Total_cost,
                     Credit_card = bill.Credit_card,
                     Bill_Products = billProducts
@@ -71,7 +71,7 @@ namespace ApplicationLayer.Services
         public ActionResult<bool> Create(BillViewModel billViewModel)
         {
             var createBillCommand = new CreateBillCommand(
-                billViewModel.Bill_number.ToString(),
+                billViewModel.Bill_number,
                 billViewModel.Total_cost,
                 billViewModel.Credit_card);
             var Task = _bus.SendCommand(createBillCommand);
@@ -89,7 +89,7 @@ namespace ApplicationLayer.Services
         public ActionResult<bool> Update(BillViewModel billViewModel)
         {
             var updateBillCommand = new UpdateBillCommand(
-                billViewModel.Bill_number.ToString(),
+                billViewModel.Bill_number,
                 billViewModel.Total_cost,
                 billViewModel.Credit_card);
             var Task = _bus.SendCommand(updateBillCommand);
@@ -154,13 +154,58 @@ namespace ApplicationLayer.Services
             }
             var result = new BillViewModel
             {
-                Bill_number = billfromdb.Bill_number.ToString(),
+                Bill_number = billfromdb.Bill_number,
                 Total_cost = billfromdb.Total_cost,
                 Credit_card = billfromdb.Credit_card,
                 Bill_Products = billProducts
             };
             return result;
         }
+        //
+        //
+        //
+        //
+        // 
+        public ActionResult<BillViewModel> AddCreditCard(string cardNumber, string BillNumber)
+        {
+            var bill=_billRepository.GetBillById(BillNumber);
+            if(bill== null)
+            {
+                var errorResponse = new ErrorResponseModel()
+                {
+                    ErrorMessage = BillErrorMessages.bill_not_exist,
+                    StatusCode = System.Net.HttpStatusCode.NotFound
+                };
+                return new NotFoundObjectResult(errorResponse);
+
+            }
+            bill.Credit_card = cardNumber.ToString();
+            _billRepository.Update(bill, BillNumber);
+
+
+            List<BillProductViewModel> billProducts = new List<BillProductViewModel>();
+            foreach (BillProduct bp in bill.Bill_Products)
+            {
+                billProducts.Add(new BillProductViewModel
+                {
+                    Bill_number = bp.Bill_number,
+                    Product_id = bp.Product_id,
+                    Product_quantity = bp.Product_quantity,
+                    Products_cost = bp.Products_cost
+                });
+            }
+
+            var result = new BillViewModel
+            {
+                Bill_number = bill.Bill_number,
+                Total_cost = bill.Total_cost,
+                Credit_card = bill.Credit_card,
+                Bill_Products = billProducts
+            };
+            return result;
+           
+        }
+
 
     }
 }

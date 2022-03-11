@@ -77,10 +77,10 @@ namespace ApplicationLayer.Services
             }
             return true;
         }
-        public ActionResult<bool> Delete(string id1, int id2,int quantity)
+        public ActionResult<bool> Delete(string Bill_number, int Product_id,int quantity)
         {
             List<BillProduct> bill_product = _billProductRepository.GetAllBillProducts().ToList();
-            var billProductdb=bill_product.FirstOrDefault(x => x.Bill_number == id1 && x.Product_id==id2);
+            var billProductdb=bill_product.FirstOrDefault(x => x.Bill_number == Bill_number && x.Product_id==Product_id);
             if (billProductdb == null)
             {
                 var errorResponse = new ErrorResponseModel()

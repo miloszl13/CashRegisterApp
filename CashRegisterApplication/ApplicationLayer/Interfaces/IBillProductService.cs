@@ -12,7 +12,7 @@ namespace ApplicationLayer.Interfaces
     {
         ActionResult<List<BillProductViewModel>> GetAllBillProduct();
         ActionResult<bool> AddProductToBillProduct(BillProductViewModel billProductViewModel);
-        ActionResult<bool> Delete(string id,int id1,int quantity);
+        ActionResult<bool> Delete(string Bill_number,int Product_id,int quantity);
 
     }
 }

@@ -14,7 +14,7 @@ namespace Domain
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public string Bill_number { get; set; }
         public int? Total_cost { get; set; }
-        public int? Credit_card { get; set; }
+        public string? Credit_card { get; set; }
         public List<BillProduct> Bill_Products { get; set; }
     }
 }

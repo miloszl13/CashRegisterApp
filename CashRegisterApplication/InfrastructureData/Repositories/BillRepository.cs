@@ -78,5 +78,7 @@ namespace InfrastructureData.Repositories
             var bill = _db.Bills.Include(x=>x.Bill_Products).FirstOrDefault(x => x.Bill_number == id);
             return bill;
         }
+        
+        }
     }
-}
+
