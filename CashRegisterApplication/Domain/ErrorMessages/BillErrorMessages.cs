@@ -12,5 +12,6 @@ namespace Domain
         public const string bill_already_exist = "Bill with that Bill_number already exist!";
         public const string empty_bills_db = "There are no bills in database!";
         public const string not_valid_id = "You tried to create bill with invalid bill number!!";
+        public const string OverCostLimit = "You cant add more products to bill because total cost is limitet to 20000";
     }
 }

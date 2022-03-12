@@ -12,10 +12,6 @@ static void RegisterService(IServiceCollection services)
     DependencyContainer.RegisterServices(services);
 }
 // Add services to the container.
-//
-//
-//
-//
 //FLUENT VALIDATION
 builder.Services.AddControllers().AddFluentValidation(options =>
 {
@@ -25,8 +21,6 @@ builder.Services.AddControllers().AddFluentValidation(options =>
     // Automatic registration of validators in assembly
     options.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 }); 
-//
-//
 //
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

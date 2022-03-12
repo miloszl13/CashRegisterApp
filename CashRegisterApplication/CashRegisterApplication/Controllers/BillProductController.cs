@@ -26,6 +26,7 @@ namespace CashRegisterApplication.Controllers
         {
             var AddingProduct = _billProductService.AddProductToBillProduct(billProductViewModel);
             return AddingProduct;
+
         }
         //
         //

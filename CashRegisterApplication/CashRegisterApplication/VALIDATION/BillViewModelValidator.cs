@@ -10,6 +10,8 @@ namespace CashRegisterApplication.VALIDATION
         {
             RuleFor(x => x.Bill_number).Must(IsValidBillNumber);
             RuleFor(x => x.Credit_card).Must(IsValidCreditCard);
+            //task17
+            RuleFor(x => x.Total_cost).LessThanOrEqualTo(20000);
         }
         private bool IsValidBillNumber(string billnumber)
         {

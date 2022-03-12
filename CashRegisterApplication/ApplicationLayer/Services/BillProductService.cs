@@ -61,21 +61,73 @@ namespace ApplicationLayer.Services
         }
         public ActionResult<bool> AddProductToBillProduct(BillProductViewModel billProductViewModel)
         {
-            var addProductToBillProductCommand = new AddProductsToBillProduct(
-                billProductViewModel.Bill_number,
-                billProductViewModel.Product_id,
-                billProductViewModel.Product_quantity);
-            var Task=_bus.SendCommand(addProductToBillProductCommand);
-            if (Task == Task.FromResult(false))
+            
+            var product = _productRepository.GetProducts().FirstOrDefault(x => x.Product_id == billProductViewModel.Product_id);
+            if (product == null)
             {
                 var errorResponse = new ErrorResponseModel()
                 {
-                    ErrorMessage = BillProductErrorMessages.invalid_adding_product_to_bill,
+                    ErrorMessage = ProductErrorMessages.product_doesnt_exist,
                     StatusCode = System.Net.HttpStatusCode.NotFound
                 };
                 return new NotFoundObjectResult(errorResponse);
             }
-            return true;
+            //if bill product already exist
+
+            var billproductfromDB = _billProductRepository.GetAllBillProducts()
+                .FirstOrDefault(x => x.Bill_number == billProductViewModel.Bill_number && x.Product_id == billProductViewModel.Product_id);
+            if (billproductfromDB != null)
+            {
+                int bpquantity = billproductfromDB.Product_quantity + billProductViewModel.Product_quantity;
+                billproductfromDB.Bill_number = billProductViewModel.Bill_number;
+                billproductfromDB.Product_id = billProductViewModel.Product_id;
+                billproductfromDB.Product_quantity = bpquantity;
+                billproductfromDB.Products_cost = (product.Cost * bpquantity);
+                
+                var bill = _billrepository.GetBillById(billproductfromDB.Bill_number);
+                if (bill.Total_cost + billproductfromDB.Products_cost >20000)
+                {
+                    var errorResponse = new ErrorResponseModel()
+                    {
+                        ErrorMessage = BillErrorMessages.OverCostLimit,
+                        StatusCode = System.Net.HttpStatusCode.NotFound
+                    };
+                    return new NotFoundObjectResult(errorResponse);
+                }
+                else
+                {
+                    _billProductRepository.Update(billproductfromDB);
+                    _billrepository.IncreaseTotalCost((billProductViewModel.Product_quantity * product.Cost), billproductfromDB.Bill_number);
+                    return true;
+                }
+            }
+            //if billproduct doesnt exist in db create new
+
+            var billProduct = new BillProduct()
+            {
+                Bill_number = billProductViewModel.Bill_number,
+                Product_id = billProductViewModel.Product_id,
+                Product_quantity = billProductViewModel.Product_quantity,
+                Products_cost = (product.Cost * billProductViewModel.Product_quantity)
+            };
+            var billDb = _billrepository.GetBillById(billProductViewModel.Bill_number);
+            if (billDb.Total_cost + billProduct.Products_cost > 20000)
+            {
+                var errorResponse = new ErrorResponseModel()
+                {
+                    ErrorMessage = BillErrorMessages.OverCostLimit,
+                    StatusCode = System.Net.HttpStatusCode.NotFound
+                };
+                return new NotFoundObjectResult(errorResponse);
+
+            }
+            else
+            {
+                _billrepository.IncreaseTotalCost(billProduct.Products_cost, billProduct.Bill_number);
+                _billProductRepository.Add(billProduct);
+
+                return true;
+            }
         }
         public ActionResult<bool> Delete(string Bill_number, int Product_id,int quantity)
         {
